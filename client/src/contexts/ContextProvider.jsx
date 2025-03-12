@@ -8,10 +8,8 @@ export const StateContext = createContext({
 });
 
 export function ContextProvider({ children }) {
-    const [user, setUser] = useState({
-        name: 'John'
-    });
-    const [token, _setToken] = useState(null);
+    const [user, setUser] = useState({});
+    const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
 
     const setToken = useCallback((token) => {
         _setToken(token);

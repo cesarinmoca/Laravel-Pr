@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -28,14 +29,15 @@ class AuthController extends Controller
     public function login(LoginRequest $request) {
         $credentials = $request->validated();
 
-        if (!Auth::attempt($credentials)) { // Auth::attempt por usar sesion
+        /** @var User $user */
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return response([
                 'message' => 'Provided email address or password is incorrect'
-            ]);
+            ], 422);
         }
 
-        /** @var User $user */
-        $user = Auth::user();   // Auth::user() por usar sesion
         $token = $user->createToken('main')->plainTextToken;
 
         return response(compact('user', 'token'));

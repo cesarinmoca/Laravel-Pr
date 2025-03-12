@@ -1,16 +1,38 @@
 import { Navigate, Outlet, Link } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
+import { useEffect } from "react";
+import axiosClient from "../axios-client.js";
 
 export default function DefaultLayout() {
-    const { user, token } = useStateContext();
+    const { user, token, setUser, setToken } = useStateContext();
 
     if (!token) {
         return <Navigate to='/login' />
     }
 
     function onLogout(e) {
-        e.preventDefault()
+        e.preventDefault();
+        setUser(null);
+        setToken(null);
+        localStorage.removeItem("ACCESS_TOKEN");
     }
+
+    useEffect(() => {
+        async function fetchUser() {
+            try {
+                const { data } = await axiosClient.get('/user');
+                setUser(data);
+            } catch (err) {
+                console.error('Error al obtener los datos del usuario', err);
+                setUser(null);
+            }
+        }
+
+        if (token) {
+            fetchUser();
+        }
+
+    }, [token]);
 
     return (
         <>

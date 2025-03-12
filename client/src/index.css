@@ -241,3 +241,16 @@ table > tbody > tr > td {
         transform: translateY(0);
     }
 }
+
+.error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+.alert {
+    background-color: #ffdddd;
+    color: red;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}

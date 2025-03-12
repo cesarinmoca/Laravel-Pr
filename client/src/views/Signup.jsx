@@ -31,12 +31,11 @@ export default function Signup() {
 
         } catch (err) {
             console.log(err.response);
-            const response = err.response;
-            if (response && response.status === 422) {
-                setErrors(response.data.errors);
-                console.log(response.data.errors);
+            if (err.response && err.response.data.message) {
+                setErrors(err.response.data.message);
             }
         }
+
     }
 
     return (
@@ -56,6 +55,7 @@ export default function Signup() {
                             Already Registered? <Link to='/login'>Sign in</Link>
                         </p>
                     </form>
+                    {errors && <p className="alert error">{errors}</p>}
                 </div>
             </div>
         </>
