@@ -6,6 +6,7 @@ import DefaultLayout from './components/DefaultLayout.jsx';
 import GuestLayout from './components/GuestLayout.jsx';
 import Dashboard from './views/Dashboard.jsx';
 import Users from './views/Users.jsx';
+import UserForm from './views/UserForm.jsx';
 
 export default function Router() {
     return (
@@ -21,6 +22,8 @@ export default function Router() {
                 <Route element={<DefaultLayout />}>
                     <Route path='dashboard' element={<Dashboard />} />
                     <Route path='users' element={<Users />} />
+                    <Route path='users/:id' element={<UserForm />} key="userUpdate" />
+                    <Route path='users/new' element={<UserForm />} key="userCreate" />
                 </Route>
 
                 {/* Rutas públicas dentro de GuestLayout */}
